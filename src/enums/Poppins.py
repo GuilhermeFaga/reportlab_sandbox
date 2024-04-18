@@ -1,9 +1,12 @@
-Regular = "Poppins"
-Bold = "Poppins-B"
-Italic = "Poppins-I"
-BoldItalic = "Poppins-BI"
+from typing import Final
 
-RegularPath = "./assets/fonts/Poppins/Poppins-Regular.ttf"
-BoldPath = "./assets/fonts/Poppins/Poppins-Bold.ttf"
-ItalicPath = "./assets/fonts/Poppins/Poppins-Italic.ttf"
-BoldItalicPath = "./assets/fonts/Poppins/Poppins-BoldItalic.ttf"
+
+Regular: Final = "Poppins"
+Bold: Final = "Poppins-B"
+Italic: Final = "Poppins-I"
+BoldItalic: Final = "Poppins-BI"
+
+RegularPath: Final = "./assets/fonts/Poppins/Poppins-Regular.ttf"
+BoldPath: Final = "./assets/fonts/Poppins/Poppins-Bold.ttf"
+ItalicPath: Final = "./assets/fonts/Poppins/Poppins-Italic.ttf"
+BoldItalicPath: Final = "./assets/fonts/Poppins/Poppins-BoldItalic.ttf"
