@@ -1,0 +1,8 @@
+Black = "#000000"
+Black_70 = "#4D4D4D"
+Gray = "#E6E6E6"
+DarkGray = "#B3B3B3"
+Red = "#E13655"
+Orange = "#F1975F"
+Green = "#9BB460"
+Blue = "#479AAE"

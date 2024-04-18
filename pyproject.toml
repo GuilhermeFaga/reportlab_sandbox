@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "reportlab-sandbox"
+name = "reportlab_sandbox"
 version = "0.1.0"
 description = ""
 authors = ["Guilherme Faga <guilherme.galletti@targetdata.com.br>"]
