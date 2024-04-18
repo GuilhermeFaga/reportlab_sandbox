@@ -29,8 +29,8 @@ class CustomStyleSheet(StyleSheet1):
             "name": "Title",
             "fontName": Poppins.Bold,
             "fontSize": 12,
-            "spaceBefore": 6.0,
-            "spaceAfter": 6.0,
+            "spaceBefore": 8.0,
+            "spaceAfter": 8.0,
         }
 
         subtitle_style = {
