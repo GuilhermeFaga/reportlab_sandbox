@@ -9,7 +9,6 @@ from reportlab.platypus import (
 )
 
 from reportlab.lib.pagesizes import A4
-from reportlab.lib.units import inch, mm
 
 from reportlab.pdfgen.canvas import Canvas
 

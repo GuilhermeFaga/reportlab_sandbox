@@ -1,4 +1,3 @@
-import enum
 from reportlab.lib.styles import StyleSheet1, ParagraphStyle
 from reportlab.lib import enums
 
