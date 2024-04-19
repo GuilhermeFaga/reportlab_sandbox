@@ -12,6 +12,7 @@ from reportlab.pdfgen.canvas import Canvas
 
 from src.components.header import Header, HeaderData
 from src.primitives.title import Title
+from src.primitives.list import List, ListData
 from src.styles.stylesheet import CustomStyleSheet
 from src.enums import Spacing
 
@@ -133,8 +134,32 @@ def main():
         protocol="52023152-59018723807912038",
     )
 
+    list_data = ListData(
+        fields={
+            "cnpj": "CNPJ",
+            "situacao": "Situação",
+            "razao_social": "Razão Social",
+            "atividade_principal": "Atividade Principal",
+            "endereco": "Endereço",
+            "bairro": "Bairro",
+            "cidade": "Cidade",
+            "cep": "CEP",
+        },
+        items={
+            "cnpj": "00.000.000/0001-00",
+            "situacao": "Ativa",
+            "razao_social": "RAZÃO SOCIAL",
+            "atividade_principal": "ATIVIDADE PRINCIPAL ATIVIDADE PRINCIPAL ATIVIDADE PRINCIPAL ATIVIDADE PRINCIPAL",
+            "endereco": "ENDEREÇO",
+            "bairro": "BAIRRO",
+            "cidade": "CIDADE",
+            "cep": "00000-000",
+        },
+    )
+
     pdf = PDFBuilder("phello.pdf", header_data)
     pdf.add_flowable(Title("Dados Cadastrais"))
+    pdf.add_flowable(List(list_data))
     pdf.generate_test_data()
     pdf.build()
 

@@ -17,9 +17,8 @@ class Title(Flowable):
 
         self.para = Paragraph(self.title, self.styles.Title)
         self.para.wrapOn(self.canv, self.max_width, 1)
-        para_width, para_height = self.para.wrap(self.para._width_max, 1)
 
-        return (self.max_width, para_height)
+        return (self.max_width, self.para.height)
 
     def draw(self):
         canvas: Canvas = self.canv

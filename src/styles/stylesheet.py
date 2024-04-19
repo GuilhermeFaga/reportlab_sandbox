@@ -49,6 +49,14 @@ class CustomStyleSheet(StyleSheet1):
             "spaceAfter": 5.0,
         }
 
+        body_bold_style = {
+            "name": "Body_Bold",
+            "fontName": Poppins.Bold,
+            "fontSize": 9,
+            "spaceBefore": 5.0,
+            "spaceAfter": 5.0,
+        }
+
         caption_style = {
             "name": "Caption",
             "fontName": Poppins.Regular,
@@ -66,6 +74,7 @@ class CustomStyleSheet(StyleSheet1):
             title_style,
             subtitle_style,
             body_style,
+            body_bold_style,
             caption_style,
             caption_70_style,
         ]
@@ -104,6 +113,10 @@ class CustomStyleSheet(StyleSheet1):
         return self["Body"]
 
     @property
+    def Body_Bold(self) -> ParagraphStyle:
+        return self["Body_Bold"]
+
+    @property
     def Caption(self) -> ParagraphStyle:
         return self["Caption"]
 
@@ -124,6 +137,10 @@ class CustomStyleSheet(StyleSheet1):
         return self["Body_Center"]
 
     @property
+    def Body_Bold_Center(self) -> ParagraphStyle:
+        return self["Body_Bold_Center"]
+
+    @property
     def Caption_Center(self) -> ParagraphStyle:
         return self["Caption_Center"]
 
@@ -142,6 +159,10 @@ class CustomStyleSheet(StyleSheet1):
     @property
     def Body_Right(self) -> ParagraphStyle:
         return self["Body_Right"]
+
+    @property
+    def Body_Bold_Right(self) -> ParagraphStyle:
+        return self["Body_Bold_Right"]
 
     @property
     def Caption_Right(self) -> ParagraphStyle:
