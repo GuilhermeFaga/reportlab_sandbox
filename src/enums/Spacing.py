@@ -3,9 +3,9 @@ from reportlab.lib.units import mm
 from typing import Final
 
 
-SafeMargin: Final = 6 * mm
+SafeMargin: Final[float] = 6 * mm
 
-Padding: Final = 4
-Gap: Final = 10
+Padding: Final[int] = 4
+Gap: Final[int] = 10
 
-HeaderHeight: Final = 24 * mm
+HeaderHeight: Final[float] = 22 * mm

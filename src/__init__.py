@@ -11,6 +11,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen.canvas import Canvas
 
 from src.components.header import Header, HeaderData
+from src.primitives.title import Title
 from src.styles.stylesheet import CustomStyleSheet
 from src.enums import Spacing
 
@@ -20,10 +21,9 @@ import io
 
 PAGE_WIDTH, PAGE_HEIGHT = A4
 
-Title = "Hello world"
 pageinfo = "platypus example"
 
-reportlab_debug = 1
+reportlab_debug = 0
 
 
 """
@@ -63,8 +63,8 @@ class PDFBuilder:
             y1=Spacing.SafeMargin,
             width=frame_width,
             height=frame_height,
-            topPadding=Spacing.Padding,
-            bottomPadding=Spacing.Padding,
+            topPadding=0,
+            bottomPadding=0,
             rightPadding=Spacing.Padding,
             leftPadding=Spacing.Padding,
             showBoundary=reportlab_debug,
@@ -98,7 +98,10 @@ class PDFBuilder:
         total_pages = max(total_pages, doc.page)
 
         self.header_data.total_pages = total_pages
-        Header(canvas, doc, styles, self.header_data, debug_flag=reportlab_debug)
+        Header(canvas, doc, self.header_data, debug_flag=reportlab_debug)
+
+    def add_flowable(self, flowable: Flowable):
+        self.story.append(flowable)
 
     def generate_test_data(self, limit: int = 15):
         for i in range(limit):
@@ -126,11 +129,12 @@ def main():
         product_name="Relatório Positivo",
         entity_name="RAZÃO SOCIAL",
         entity_id="00.000.000/0001-00",
-        date_time="12/04/2024 10:00",
+        date_time="12/04/2024 - 10:00",
         protocol="52023152-59018723807912038",
     )
 
     pdf = PDFBuilder("phello.pdf", header_data)
+    pdf.add_flowable(Title("Dados Cadastrais"))
     pdf.generate_test_data()
     pdf.build()
 

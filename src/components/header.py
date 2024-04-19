@@ -37,8 +37,8 @@ class HeaderData:
 def Header(
     canvas: Canvas,
     doc: BaseDocTemplate,
-    styles: CustomStyleSheet,
     header_data: HeaderData,
+    styles: CustomStyleSheet = CustomStyleSheet(),
     debug_flag: int = 0,
 ):
     PAGE_WIDTH, PAGE_HEIGHT = canvas._pagesize
