@@ -5,11 +5,17 @@ from src.enums import Colors, Spacing
 from src.styles.stylesheet import CustomStyleSheet
 
 
-class Title(Flowable):
+class TitlePrimitive(Flowable):
 
-    def __init__(self, title: str, styles: CustomStyleSheet = CustomStyleSheet()):
+    def __init__(
+        self,
+        title: str,
+        styles: CustomStyleSheet = CustomStyleSheet(),
+        debug_flag: int = 0,
+    ):
         self.title = title
         self.styles = styles
+        self.debug_flag = debug_flag
 
     def wrap(self, aW, aH):
         self.max_width = aW
@@ -18,11 +24,14 @@ class Title(Flowable):
         self.para = Paragraph(self.title, self.styles.Title)
         self.para.wrapOn(self.canv, self.max_width, 1)
 
-        return (self.max_width, self.para.height)
+        self.height = self.para.height
+
+        return (self.max_width, self.height)
 
     def draw(self):
         canvas: Canvas = self.canv
 
+        self.para.debug = self.debug_flag
         self.para.drawOn(canvas, 0, 0)
 
         strip = TitleStrip(height=4)

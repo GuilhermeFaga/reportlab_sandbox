@@ -20,15 +20,17 @@ class ListData:
         self.fields = fields
 
 
-class List(Flowable):
+class ListPrimitive(Flowable):
 
     def __init__(
         self,
         list_data: ListData,
         styles: CustomStyleSheet = CustomStyleSheet(),
+        debug_flag: int = 0,
     ):
         self.list_data = list_data
         self.styles = styles
+        self.debug_flag = debug_flag
 
     def wrap(self, aW, aH):
         self.max_width = aW
@@ -52,10 +54,10 @@ class List(Flowable):
             index += 1
             del field_para
 
-        self.accumulated_height_left = 0
-        self.accumulated_height_right = 0
+        self.height_left = 0
+        self.height_right = 0
 
-        self.accumulated_height = 0
+        self.height = 0
 
         index = 0
         for key, value in self.list_data.fields.items():
@@ -68,7 +70,7 @@ class List(Flowable):
                     self.max_width / 2 - self.max_field_width_left - Spacing.Padding,
                     1,
                 )
-                self.accumulated_height_left += value_para.height
+                self.height_left += value_para.height
             else:
                 value_para.wrapOn(
                     self.canv,
@@ -78,22 +80,19 @@ class List(Flowable):
                     - padding_x * 2,
                     1,
                 )
-                self.accumulated_height_right += value_para.height
+                self.height_right += value_para.height
 
             index += 1
             del value_para
 
         spacers_count = max(1, len(self.list_data.fields) / 2 - 1)
 
-        self.accumulated_height_left += ceil(spacers_count) * Spacing.Padding
-        self.accumulated_height_right += ceil(spacers_count) * Spacing.Padding
+        self.height_left += ceil(spacers_count) * Spacing.Padding
+        self.height_right += ceil(spacers_count) * Spacing.Padding
 
-        self.accumulated_height = (
-            max(self.accumulated_height_left, self.accumulated_height_right)
-            + padding_y * 2
-        )
+        self.height = max(self.height_left, self.height_right) + padding_y * 2
 
-        return (self.max_width, self.accumulated_height)
+        return (self.max_width, self.height)
 
     def draw(self):
         canvas: Canvas = self.canv
@@ -105,24 +104,24 @@ class List(Flowable):
             x1=0,
             y1=0,
             width=self.max_width / 2,
-            height=self.accumulated_height,
+            height=self.height,
             topPadding=padding_y,
             bottomPadding=padding_y,
             leftPadding=padding_x,
             rightPadding=padding_x,
-            showBoundary=0,
+            showBoundary=self.debug_flag,
         )
 
         right_frame = Frame(
             x1=self.max_width / 2,
             y1=0,
             width=self.max_width / 2,
-            height=self.accumulated_height,
+            height=self.height,
             topPadding=padding_y,
             bottomPadding=padding_y,
             leftPadding=padding_x,
             rightPadding=padding_x,
-            showBoundary=0,
+            showBoundary=self.debug_flag,
         )
 
         index = 0
@@ -136,6 +135,7 @@ class List(Flowable):
                     value=row_value,
                     field_width=self.max_field_width_left,
                     styles=self.styles,
+                    debug_flag=self.debug_flag,
                 )
                 left_story.append(row)
                 left_story.append(Spacer(1, Spacing.Padding))
@@ -145,6 +145,7 @@ class List(Flowable):
                     value=row_value,
                     field_width=self.max_field_width_right,
                     styles=self.styles,
+                    debug_flag=self.debug_flag,
                 )
                 right_story.append(row)
                 right_story.append(Spacer(1, Spacing.Padding))
@@ -163,11 +164,13 @@ class ListRow(Flowable):
         value: str,
         field_width: float,
         styles: CustomStyleSheet = CustomStyleSheet(),
+        debug_flag: int = 0,
     ):
         self.field = field
         self.value = str(value)
         self.field_width = field_width
         self.styles = styles
+        self.debug_flag = debug_flag
 
     def wrap(self, aW, aH):
         self.max_width = aW
@@ -186,6 +189,8 @@ class ListRow(Flowable):
         return (self.max_width, self.value_para.height)
 
     def draw(self):
+        self.field_para.debug = self.debug_flag
+        self.value_para.debug = self.debug_flag
         self.field_para.drawOn(
             self.canv, 0, self.value_para.height - self.field_para.height
         )

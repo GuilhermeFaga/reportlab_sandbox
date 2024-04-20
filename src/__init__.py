@@ -11,8 +11,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen.canvas import Canvas
 
 from src.components.header import Header, HeaderData
-from src.primitives.title import Title
-from src.primitives.list import List, ListData
+from src.components.list import List, ListData
 from src.styles.stylesheet import CustomStyleSheet
 from src.enums import Spacing
 
@@ -149,7 +148,7 @@ def main():
             "cnpj": "00.000.000/0001-00",
             "situacao": "Ativa",
             "razao_social": "RAZÃO SOCIAL",
-            "atividade_principal": "ATIVIDADE PRINCIPAL ATIVIDADE PRINCIPAL ATIVIDADE PRINCIPAL ATIVIDADE PRINCIPAL",
+            "atividade_principal": "ATIVIDADE PRINCIPAL",
             "endereco": "ENDEREÇO",
             "bairro": "BAIRRO",
             "cidade": "CIDADE",
@@ -158,8 +157,7 @@ def main():
     )
 
     pdf = PDFBuilder("phello.pdf", header_data)
-    pdf.add_flowable(Title("Dados Cadastrais"))
-    pdf.add_flowable(List(list_data))
+    pdf.add_flowable(List("Dados Cadastrais", list_data, debug_flag=reportlab_debug))
     pdf.generate_test_data()
     pdf.build()
 
