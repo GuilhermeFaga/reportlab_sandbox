@@ -73,15 +73,19 @@ class IconCardPrimitive(Flowable):
             showBoundary=self.debug_flag,
         )
 
+        icon_size = int(8.5 * mm)
         icon_frame = Frame(
-            x1=self.max_width - self.icon_frame_width,
-            y1=0,
-            width=self.icon_frame_width,
-            height=self.height,
+            x1=self.max_width
+            - self.icon_frame_width
+            + (self.icon_frame_width - icon_size)
+            - Spacing.Padding * 2,
+            y1=(self.height - icon_size) / 3,
+            width=icon_size,
+            height=icon_size,
             leftPadding=0,
-            bottomPadding=Spacing.Padding,
+            bottomPadding=0,
             rightPadding=Spacing.Padding,
-            topPadding=Spacing.Padding,
+            topPadding=0,
             showBoundary=self.debug_flag,
         )
 
@@ -96,5 +100,9 @@ class IconCardPrimitive(Flowable):
                 fill=1,
             )
 
+        icon = Icon(
+            self.icon_card_data.icon, width=icon_size, debug_flag=self.debug_flag
+        )
+
         text_frame.addFromList([self.title_para, self.description_para], canvas)
-        icon_frame.addFromList([Icon(self.icon_card_data.icon)], canvas)
+        icon_frame.addFromList([icon], canvas)
