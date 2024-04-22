@@ -12,8 +12,10 @@ from reportlab.pdfgen.canvas import Canvas
 
 from src.components.header import Header, HeaderData
 from src.components.list import List, ListData
+from src.components.icon_card_list import IconCardList, IconCardData
+
 from src.styles.stylesheet import CustomStyleSheet
-from src.enums import Spacing
+from src.enums import Colors, Spacing, SvgPath
 
 import copy
 import io
@@ -21,9 +23,7 @@ import io
 
 PAGE_WIDTH, PAGE_HEIGHT = A4
 
-pageinfo = "platypus example"
-
-reportlab_debug = 0
+reportlab_debug = 1
 
 
 """
@@ -156,8 +156,22 @@ def main():
         },
     )
 
+    icon_card_list: list[IconCardData] = []
+
+    for i in range(7):
+        icon_card_list.append(
+            IconCardData(
+                title=f"Title {i}",
+                description=f"Description {i}",
+                icon=SvgPath.WarningSvg,
+                color=Colors.Green,
+            )
+        )
+
     pdf = PDFBuilder("phello.pdf", header_data)
     pdf.add_flowable(List("Dados Cadastrais", list_data, debug_flag=reportlab_debug))
+    pdf.add_flowable(IconCardList(icon_card_list, "Resumo", debug_flag=reportlab_debug))
+
     pdf.generate_test_data()
     pdf.build()
 

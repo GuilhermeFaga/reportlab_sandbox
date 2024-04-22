@@ -16,6 +16,7 @@ class TitlePrimitive(Flowable):
         self.title = title
         self.styles = styles
         self.debug_flag = debug_flag
+        self.height = 0
 
     def wrap(self, aW, aH):
         self.max_width = aW
