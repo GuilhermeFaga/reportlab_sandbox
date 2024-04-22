@@ -158,7 +158,7 @@ def main():
 
     icon_card_list: list[IconCardData] = []
 
-    for i in range(7):
+    for i in range(1):
         icon_card_list.append(
             IconCardData(
                 title=f"Title {i}",
