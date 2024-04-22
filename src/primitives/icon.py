@@ -14,8 +14,8 @@ class Icon(Flowable):
         svg_path: str,
         width: int = 0,
         height: int = 0,
-        color=Colors.DarkGray,
-        opacity=1.0,
+        color=Colors.Black,
+        opacity=0.5,
         debug_flag: int = 0,
     ):
         self.svg_path = svg_path

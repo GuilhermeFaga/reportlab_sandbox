@@ -23,7 +23,7 @@ import io
 
 PAGE_WIDTH, PAGE_HEIGHT = A4
 
-reportlab_debug = 1
+reportlab_debug = 0
 
 
 """
@@ -158,7 +158,7 @@ def main():
 
     icon_card_list: list[IconCardData] = []
 
-    for i in range(1):
+    for i in range(5):
         icon_card_list.append(
             IconCardData(
                 title=f"Title {i}",

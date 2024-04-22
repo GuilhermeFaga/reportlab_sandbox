@@ -66,7 +66,7 @@ class IconCardPrimitive(Flowable):
             y1=0,
             width=self.max_width - self.icon_frame_width,
             height=self.height,
-            leftPadding=Spacing.Padding,
+            leftPadding=Spacing.Padding * 2,
             bottomPadding=Spacing.Padding,
             rightPadding=0,
             topPadding=Spacing.Padding,
@@ -79,13 +79,13 @@ class IconCardPrimitive(Flowable):
             - self.icon_frame_width
             + (self.icon_frame_width - icon_size)
             - Spacing.Padding * 2,
-            y1=(self.height - icon_size) / 3,
+            y1=(self.height - icon_size) / 2,
             width=icon_size,
             height=icon_size,
             leftPadding=0,
             bottomPadding=0,
             rightPadding=Spacing.Padding,
-            topPadding=0,
+            topPadding=1,
             showBoundary=self.debug_flag,
         )
 
