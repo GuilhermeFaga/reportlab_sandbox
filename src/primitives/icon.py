@@ -4,28 +4,28 @@ from reportlab.graphics.shapes import Path
 
 from svglib.svglib import svg2rlg
 
-from src.enums.Colors import Colors
+from src.enums import Colors, SvgPath
 
 
 class Icon(Flowable):
 
     def __init__(
         self,
-        svg_path: str,
+        svg_path: SvgPath,
         width: int = 0,
         height: int = 0,
         color: Colors = Colors.Black,
-        opacity=0.5,
+        opacity=1,
         debug_flag: int = 0,
     ):
         self.svg_path = svg_path
-        self.width = width
-        self.height = height
+        self.iWidth = width
+        self.iHeight = height
         self.color = color
         self.opacity = opacity
         self.debug_flag = debug_flag
 
-        self.icon = svg2rlg(self.svg_path)
+        self.icon = svg2rlg(self.svg_path.value)
 
     def wrap(self, aW, aH):
         self.max_width = aW
@@ -34,10 +34,13 @@ class Icon(Flowable):
         if not self.icon:
             return (self.max_width, self.max_height)
 
-        if self.width:
-            self.resizeWidth(self.width)
-        if self.height:
-            self.resizeHeight(self.height)
+        if self.iWidth:
+            self.resizeWidth(self.iWidth)
+        if self.iHeight:
+            self.resizeHeight(self.iHeight)
+
+        self.width = self.icon.width
+        self.height = self.icon.height
 
         return (self.icon.width, self.icon.height)
 
@@ -46,11 +49,6 @@ class Icon(Flowable):
             return
 
         self.canv.saveState()
-
-        if self.width:
-            self.resizeWidth(self.width)
-        if self.height:
-            self.resizeHeight(self.height)
 
         self.changeColor(self.color)
         self.changeOpacity(self.opacity)
@@ -103,7 +101,7 @@ class Icon(Flowable):
 
         for shape in children:
             if hasattr(shape, "fillColor"):
-                shape.setProperties({"fillColor": color.value})
+                shape.setProperties({"fillColor": Colors.getIconColor(color).value})
 
     def changeOpacity(self, opacity: float):
         if not self.icon:

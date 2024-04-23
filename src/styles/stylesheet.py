@@ -5,7 +5,6 @@ from reportlab.pdfbase.pdfmetrics import registerFont, registerFontFamily
 from reportlab.pdfbase.ttfonts import TTFont
 
 from src.enums import Poppins, Colors
-from src.enums.Colors import Colors
 
 
 class CustomStyleSheet(StyleSheet1):

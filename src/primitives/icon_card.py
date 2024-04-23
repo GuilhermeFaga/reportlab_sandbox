@@ -1,12 +1,12 @@
 from reportlab.platypus import Flowable, Paragraph, Frame
 from reportlab.pdfgen.canvas import Canvas
+from reportlab.lib.styles import ParagraphStyle
 
 from reportlab.lib.units import mm
 
 from src.primitives.icon import Icon
 
-from src.enums import Spacing
-from src.enums.Colors import Colors
+from src.enums import Colors, Spacing
 from src.styles.stylesheet import CustomStyleSheet
 
 from typing import Final
@@ -37,9 +37,21 @@ class IconCardPrimitive(Flowable):
         self.max_width = aW
         self.max_height = aH
 
-        self.title_para = Paragraph(self.icon_card_data.title, self.styles.Subtitle)
+        title_styles = {
+            **self.styles.Subtitle.__dict__,
+            "textColor": Colors.getTextColor(self.icon_card_data.color).value,
+            "spaceAfter": 2,
+        }
+        self.title_para = Paragraph(
+            self.icon_card_data.title, ParagraphStyle(**title_styles)
+        )
+        description_styles = {
+            **self.styles.Body.__dict__,
+            "textColor": Colors.getTextColor(self.icon_card_data.color).value,
+            "spaceBefore": 0,
+        }
         self.description_para = Paragraph(
-            self.icon_card_data.description, self.styles.Body
+            self.icon_card_data.description, ParagraphStyle(**description_styles)
         )
 
         self.title_para.debug = self.debug_flag
@@ -75,18 +87,25 @@ class IconCardPrimitive(Flowable):
         )
 
         icon_size = int(8.5 * mm)
+        icon = Icon(
+            self.icon_card_data.icon,
+            width=icon_size,
+            color=self.icon_card_data.color,
+            debug_flag=self.debug_flag,
+        )
+        icon.wrap(icon_size, icon_size)
         icon_frame = Frame(
             x1=self.max_width
             - self.icon_frame_width
             + (self.icon_frame_width - icon_size)
             - Spacing.Padding * 2,
-            y1=(self.height - icon_size) / 2,
+            y1=(self.height - icon.height) / 2,
             width=icon_size,
-            height=icon_size,
+            height=icon.height,
             leftPadding=0,
             bottomPadding=0,
             rightPadding=Spacing.Padding,
-            topPadding=1,
+            topPadding=0,
             showBoundary=self.debug_flag,
         )
 
@@ -100,10 +119,6 @@ class IconCardPrimitive(Flowable):
                 height=self.height,
                 fill=1,
             )
-
-        icon = Icon(
-            self.icon_card_data.icon, width=icon_size, debug_flag=self.debug_flag
-        )
 
         text_frame.addFromList([self.title_para, self.description_para], canvas)
         icon_frame.addFromList([icon], canvas)

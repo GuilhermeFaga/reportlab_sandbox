@@ -15,8 +15,7 @@ from src.components.list import List, ListData
 from src.components.icon_card_list import IconCardList, IconCardData
 
 from src.styles.stylesheet import CustomStyleSheet
-from src.enums import Spacing, SvgPath
-from src.enums.Colors import Colors
+from src.enums import Colors, Spacing, SvgPath
 
 import copy
 import io
@@ -157,17 +156,38 @@ def main():
         },
     )
 
-    icon_card_list: list[IconCardData] = []
-
-    for i in range(5):
-        icon_card_list.append(
-            IconCardData(
-                title=f"Title {i}",
-                description=f"Description {i}",
-                icon=SvgPath.WarningSvg,
-                color=Colors.Green,
-            )
-        )
+    icon_card_list: list[IconCardData] = [
+        IconCardData(
+            title="Situação",
+            description="Possui Restrições",
+            icon=SvgPath.Warning,
+            color=Colors.Orange,
+        ),
+        IconCardData(
+            title="Protestos",
+            description="R$127K",
+            icon=SvgPath.Error,
+            color=Colors.Red,
+        ),
+        IconCardData(
+            title="Negativações",
+            description="R$104K",
+            icon=SvgPath.Error,
+            color=Colors.Red,
+        ),
+        IconCardData(
+            title="Ações Judiciais",
+            description="R$0",
+            icon=SvgPath.Check,
+            color=Colors.Green,
+        ),
+        IconCardData(
+            title="Cheques sem Fundos",
+            description="0",
+            icon=SvgPath.Check,
+            color=Colors.Green,
+        ),
+    ]
 
     pdf = PDFBuilder("phello.pdf", header_data)
     pdf.add_flowable(List("Dados Cadastrais", list_data, debug_flag=reportlab_debug))
