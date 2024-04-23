@@ -3,21 +3,16 @@ from reportlab.pdfgen.canvas import Canvas
 
 from src.enums import Spacing
 from src.styles.stylesheet import CustomStyleSheet
+from src.types import ListData
 
 from math import ceil
-from typing import Any, Final
+from typing import Final
 
 
 field_template: Final[str] = "%s:"
 
 padding_x: Final[int] = Spacing.Padding
 padding_y: Final[int] = Spacing.Padding
-
-
-class ListData:
-    def __init__(self, items: dict[str, Any], fields: dict[str, Any]):
-        self.items = items
-        self.fields = fields
 
 
 class ListPrimitive(Flowable):

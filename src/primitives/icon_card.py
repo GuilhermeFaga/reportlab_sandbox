@@ -8,16 +8,9 @@ from src.primitives.icon import Icon
 
 from src.enums import Colors, Spacing
 from src.styles.stylesheet import CustomStyleSheet
+from src.types import IconCardData
 
 from typing import Final
-
-
-class IconCardData:
-    def __init__(self, title: str, description: str, icon, color: Colors = Colors.Gray):
-        self.title = title
-        self.description = description
-        self.icon = icon
-        self.color = color
 
 
 class IconCardPrimitive(Flowable):
