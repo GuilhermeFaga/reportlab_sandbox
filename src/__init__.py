@@ -13,6 +13,7 @@ from reportlab.pdfgen.canvas import Canvas
 from src.components.header import Header, HeaderData
 from src.components.list import List, ListData
 from src.components.icon_card_list import IconCardList, IconCardData
+from src.components.score import Score, ScoreData, ScoreRangeData
 
 from src.styles.stylesheet import CustomStyleSheet
 from src.enums import Colors, Spacing, SvgPath
@@ -189,9 +190,21 @@ def main():
         ),
     ]
 
+    score_data = ScoreData(
+        score=420,
+        ranges=[
+            ScoreRangeData(max_score=300, color=Colors.Red, description="Péssimo"),
+            ScoreRangeData(max_score=500, color=Colors.Orange, description="Ruim"),
+            ScoreRangeData(max_score=700, color=Colors.Green, description="Bom"),
+            ScoreRangeData(max_score=1000, color=Colors.Green, description="Ótimo"),
+        ],
+    )
+
     pdf = PDFBuilder("phello.pdf", header_data)
+
     pdf.add_flowable(List("Dados Cadastrais", list_data, debug_flag=reportlab_debug))
     pdf.add_flowable(IconCardList(icon_card_list, "Resumo", debug_flag=reportlab_debug))
+    pdf.add_flowable(Score("Score", score_data, debug_flag=reportlab_debug))
 
     pdf.generate_test_data()
     pdf.build()

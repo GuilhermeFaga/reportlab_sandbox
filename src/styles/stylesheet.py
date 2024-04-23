@@ -63,11 +63,24 @@ class CustomStyleSheet(StyleSheet1):
             "fontSize": 8,
         }
 
+        caption_bold_style = {
+            "name": "Caption_Bold",
+            "fontName": Poppins.Bold,
+            "fontSize": 8,
+        }
+
         caption_70_style = {
             "name": "Caption_70",
             "fontName": Poppins.Regular,
             "fontSize": 8,
             "textColor": Colors.Black_70.value,
+        }
+
+        score_style = {
+            "name": "Score",
+            "fontName": Poppins.Bold,
+            "fontSize": 24,
+            "leading": 30,
         }
 
         styles = [
@@ -76,7 +89,9 @@ class CustomStyleSheet(StyleSheet1):
             body_style,
             body_bold_style,
             caption_style,
+            caption_bold_style,
             caption_70_style,
+            score_style,
         ]
 
         for style in styles:
@@ -121,8 +136,16 @@ class CustomStyleSheet(StyleSheet1):
         return self["Caption"]
 
     @property
+    def Caption_Bold(self) -> ParagraphStyle:
+        return self["Caption_Bold"]
+
+    @property
     def Caption_70(self) -> ParagraphStyle:
         return self["Caption_70"]
+
+    @property
+    def Score(self) -> ParagraphStyle:
+        return self["Score"]
 
     @property
     def Title_Center(self) -> ParagraphStyle:
@@ -145,8 +168,16 @@ class CustomStyleSheet(StyleSheet1):
         return self["Caption_Center"]
 
     @property
+    def Caption_Bold_Center(self) -> ParagraphStyle:
+        return self["Caption_Bold_Center"]
+
+    @property
     def Caption_70_Center(self) -> ParagraphStyle:
         return self["Caption_70_Center"]
+
+    @property
+    def Score_Center(self) -> ParagraphStyle:
+        return self["Score_Center"]
 
     @property
     def Title_Right(self) -> ParagraphStyle:
@@ -169,5 +200,13 @@ class CustomStyleSheet(StyleSheet1):
         return self["Caption_Right"]
 
     @property
+    def Caption_Bold_Right(self) -> ParagraphStyle:
+        return self["Caption_Bold_Right"]
+
+    @property
     def Caption_70_Right(self) -> ParagraphStyle:
         return self["Caption_70_Right"]
+
+    @property
+    def Score_Right(self) -> ParagraphStyle:
+        return self["Score_Right"]

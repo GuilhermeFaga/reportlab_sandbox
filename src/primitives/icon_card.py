@@ -102,16 +102,20 @@ class IconCardPrimitive(Flowable):
             showBoundary=self.debug_flag,
         )
 
-        if not self.debug_flag:
-            canvas.setFillColor(self.icon_card_data.color.value)
-            canvas.setStrokeAlpha(0)
-            canvas.rect(
-                x=0,
-                y=0,
-                width=self.max_width,
-                height=self.height,
-                fill=1,
-            )
+        canvas.setFillColor(self.icon_card_data.color.value)
+        canvas.setStrokeAlpha(0)
+
+        if self.debug_flag:
+            canvas.setFillAlpha(0.5)
+            canvas.setStrokeAlpha(1)
+
+        canvas.rect(
+            x=0,
+            y=0,
+            width=self.max_width,
+            height=self.height,
+            fill=1,
+        )
 
         text_frame.addFromList([self.title_para, self.description_para], canvas)
         icon_frame.addFromList([icon], canvas)
