@@ -15,7 +15,8 @@ from src.components.list import List, ListData
 from src.components.icon_card_list import IconCardList, IconCardData
 
 from src.styles.stylesheet import CustomStyleSheet
-from src.enums import Colors, Spacing, SvgPath
+from src.enums import Spacing, SvgPath
+from src.enums.Colors import Colors
 
 import copy
 import io

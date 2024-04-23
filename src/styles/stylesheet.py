@@ -5,6 +5,7 @@ from reportlab.pdfbase.pdfmetrics import registerFont, registerFontFamily
 from reportlab.pdfbase.ttfonts import TTFont
 
 from src.enums import Poppins, Colors
+from src.enums.Colors import Colors
 
 
 class CustomStyleSheet(StyleSheet1):
@@ -67,7 +68,7 @@ class CustomStyleSheet(StyleSheet1):
             "name": "Caption_70",
             "fontName": Poppins.Regular,
             "fontSize": 8,
-            "textColor": Colors.Black_70,
+            "textColor": Colors.Black_70.value,
         }
 
         styles = [

@@ -4,7 +4,7 @@ from reportlab.graphics.shapes import Path
 
 from svglib.svglib import svg2rlg
 
-from src.enums import Colors
+from src.enums.Colors import Colors
 
 
 class Icon(Flowable):
@@ -14,7 +14,7 @@ class Icon(Flowable):
         svg_path: str,
         width: int = 0,
         height: int = 0,
-        color=Colors.Black,
+        color: Colors = Colors.Black,
         opacity=0.5,
         debug_flag: int = 0,
     ):
@@ -95,7 +95,7 @@ class Icon(Flowable):
 
         return shapes
 
-    def changeColor(self, color: str):
+    def changeColor(self, color: Colors):
         if not self.icon:
             return
 
@@ -103,7 +103,7 @@ class Icon(Flowable):
 
         for shape in children:
             if hasattr(shape, "fillColor"):
-                shape.setProperties({"fillColor": color})
+                shape.setProperties({"fillColor": color.value})
 
     def changeOpacity(self, opacity: float):
         if not self.icon:

@@ -5,14 +5,15 @@ from reportlab.lib.units import mm
 
 from src.primitives.icon import Icon
 
-from src.enums import Colors, Spacing
+from src.enums import Spacing
+from src.enums.Colors import Colors
 from src.styles.stylesheet import CustomStyleSheet
 
 from typing import Final
 
 
 class IconCardData:
-    def __init__(self, title: str, description: str, icon, color: str = Colors.Gray):
+    def __init__(self, title: str, description: str, icon, color: Colors = Colors.Gray):
         self.title = title
         self.description = description
         self.icon = icon
@@ -90,7 +91,7 @@ class IconCardPrimitive(Flowable):
         )
 
         if not self.debug_flag:
-            canvas.setFillColor(self.icon_card_data.color)
+            canvas.setFillColor(self.icon_card_data.color.value)
             canvas.setStrokeAlpha(0)
             canvas.rect(
                 x=0,

@@ -1,7 +1,8 @@
 from reportlab.platypus import Flowable, Paragraph
 from reportlab.pdfgen.canvas import Canvas
 
-from src.enums import Colors, Spacing
+from src.enums import Spacing
+from src.enums.Colors import Colors
 from src.styles.stylesheet import CustomStyleSheet
 
 
@@ -53,7 +54,7 @@ class TitleStrip(Flowable):
 
     def draw(self):
         canvas: Canvas = self.canv
-        canvas.setFillColor(Colors.Gray)
+        canvas.setFillColor(Colors.Gray.value)
         canvas.setStrokeAlpha(0)
         canvas.rect(
             x=0,
