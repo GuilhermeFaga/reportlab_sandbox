@@ -254,7 +254,7 @@ def main():
     pdf = PDFBuilder("phello.pdf", header_data)
 
     pdf.add_flowable(List("Dados Cadastrais", list_data, debug_flag=reportlab_debug))
-    pdf.add_flowable(IconCardList(icon_card_list, "Resumo", debug_flag=reportlab_debug))
+    pdf.add_flowable(IconCardList("Resumo", icon_card_list, debug_flag=reportlab_debug))
     pdf.add_flowable(Score("Score", score_data, debug_flag=reportlab_debug))
 
     pdf.generate_test_data()

@@ -15,7 +15,7 @@ from math import ceil
 
 class IconCardList(Flowable):
 
-    def __init__(self, items: list[IconCardData], title: str, debug_flag: int = 0):
+    def __init__(self, title: str, items: list[IconCardData], debug_flag: int = 0):
         self.items = items
         self.title = title
         self.debug_flag = debug_flag
