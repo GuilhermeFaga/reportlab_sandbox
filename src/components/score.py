@@ -30,7 +30,7 @@ class Score(Flowable):
         self.height = (
             self.title_primitive.height
             + self.score_group.height
-            + Spacing.Gap * 2
+            + Spacing.Gap
             + Spacing.Padding
         )
 
@@ -56,7 +56,6 @@ class Score(Flowable):
                 self.title_primitive,
                 Spacer(1, Spacing.Gap + Spacing.Padding),
                 self.score_group,
-                Spacer(1, Spacing.Gap),
             ],
             canvas,
         )

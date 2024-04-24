@@ -14,11 +14,19 @@ from src.components.header import Header, HeaderData
 from src.components.list import List, ListData
 from src.components.icon_card_list import IconCardList, IconCardData
 from src.components.score import Score
+from src.components.gauge_card_list import GaugeCardList
 
 from src.styles.stylesheet import CustomStyleSheet
 from src.enums import Colors, Spacing, SvgPath
 
-from src.types import ScoreData, ScoreRangeData, ScoreNotValidData
+from src.types import (
+    ScoreData,
+    ScoreRangeData,
+    ScoreNotValidData,
+    GaugeCardListData,
+    GaugeCardGroupData,
+    GaugeCardData,
+)
 
 import copy
 import io
@@ -26,7 +34,7 @@ import io
 
 PAGE_WIDTH, PAGE_HEIGHT = A4
 
-reportlab_debug = 0
+reportlab_debug = 1
 
 
 """
@@ -250,11 +258,73 @@ def main():
         ],
     )
 
+    gauge_card_list = GaugeCardListData(
+        groups=[
+            GaugeCardGroupData(
+                title="Grupo 1",
+                cards=[
+                    GaugeCardData(
+                        title="Card 1",
+                        description="Descrição do Card 1",
+                        level=1,
+                        level_text="Baixo",
+                        color=Colors.Green,
+                    ),
+                    GaugeCardData(
+                        title="Card 2",
+                        description="Descrição do Card 2",
+                        level=2,
+                        level_text="Médio",
+                        color=Colors.Orange,
+                    ),
+                    GaugeCardData(
+                        title="Card 3",
+                        description="Descrição do Card 3",
+                        level=3,
+                        level_text="Alto",
+                        color=Colors.Red,
+                    ),
+                ],
+            ),
+            GaugeCardGroupData(
+                title="Grupo 2",
+                cards=[
+                    GaugeCardData(
+                        title="Card 1",
+                        description="Descrição do Card 1",
+                        level=1,
+                        level_text="Baixo",
+                        color=Colors.Green,
+                    ),
+                    GaugeCardData(
+                        title="Card 2",
+                        description="Descrição do Card 2",
+                        level=2,
+                        level_text="Médio",
+                        color=Colors.Orange,
+                    ),
+                    GaugeCardData(
+                        title="Card 3",
+                        description="Descrição do Card 3",
+                        level=3,
+                        level_text="Alto",
+                        color=Colors.Red,
+                    ),
+                ],
+            ),
+        ]
+    )
+
     pdf = PDFBuilder("phello.pdf", header_data)
 
     pdf.add_flowable(List("Dados Cadastrais", list_data, debug_flag=reportlab_debug))
     pdf.add_flowable(IconCardList("Resumo", icon_card_list, debug_flag=reportlab_debug))
     pdf.add_flowable(Score("Score", score_data, debug_flag=reportlab_debug))
+    pdf.add_flowable(
+        GaugeCardList(
+            "Indicadores de Negócio", gauge_card_list, debug_flag=reportlab_debug
+        )
+    )
 
     pdf.generate_test_data()
     pdf.build()
