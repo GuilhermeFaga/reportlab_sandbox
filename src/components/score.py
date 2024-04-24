@@ -4,7 +4,7 @@ from reportlab.pdfgen.canvas import Canvas
 from reportlab.lib.units import mm
 
 from src.primitives.title import TitlePrimitive
-from src.primitives.score_chart import ScoreChartPrimitive, ScoreData, ScoreRangeData
+from src.primitives.score_chart import ScoreChartPrimitive, ScoreData
 from src.primitives.score_text import ScoreTextPrimitive
 
 from src.enums import Spacing

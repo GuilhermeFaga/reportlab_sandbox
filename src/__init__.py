@@ -13,10 +13,12 @@ from reportlab.pdfgen.canvas import Canvas
 from src.components.header import Header, HeaderData
 from src.components.list import List, ListData
 from src.components.icon_card_list import IconCardList, IconCardData
-from src.components.score import Score, ScoreData, ScoreRangeData
+from src.components.score import Score
 
 from src.styles.stylesheet import CustomStyleSheet
 from src.enums import Colors, Spacing, SvgPath
+
+from src.types import ScoreData, ScoreRangeData, ScoreNotValidData
 
 import copy
 import io
@@ -191,12 +193,18 @@ def main():
     ]
 
     score_data = ScoreData(
-        score=550,
+        score=490,
         min_score=300,
         aux_title="Risco de Crédito",
         aux_template="""De acordo com o perfil do CNPJ consultado e seu principal sócio, o risco de 
         não pagamento dos compromissos financeiros da empresa é estatisticamente %s.""",
         aux_color=Colors.Green,
+        not_valid_data=ScoreNotValidData(
+            color=Colors.Gray,
+            aux_template="Este consumidor não possui informacões suficientes disponíveis para calcular o Score.",
+            description="Não se aplica",
+            aux_value="Não se aplica",
+        ),
         ranges=[
             ScoreRangeData(
                 max_score=400,

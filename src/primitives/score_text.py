@@ -26,13 +26,21 @@ class ScoreTextPrimitive(Flowable):
             style=self.styles.Subtitle,
         )
         self.aux_value_flow = _AuxValue(
-            current_range=self.score_data.current_range,
+            score_data=self.score_data,
             styles=self.styles,
             debug_flag=self.debug_flag,
         )
+
+        aux_description_text = (
+            self.score_data.aux_template
+            % self.score_data.current_range.aux_value.lower()
+        )
+
+        if not self.score_data.is_score_valid:
+            aux_description_text = self.score_data.not_valid_data.aux_template
+
         self.aux_description_para = Paragraph(
-            text=self.score_data.aux_template
-            % self.score_data.current_range.aux_value.lower(),
+            text=aux_description_text,
             style=self.styles.Body,
         )
 
@@ -82,11 +90,12 @@ class _AuxValue(Flowable):
 
     def __init__(
         self,
-        current_range: ScoreRangeData,
+        score_data: ScoreData,
         styles=CustomStyleSheet(),
         debug_flag: int = 0,
     ):
-        self.current_range = current_range
+        self.score_data = score_data
+        self.current_range = self.score_data.current_range
         self.styles = styles
         self.debug_flag = debug_flag
 
@@ -94,12 +103,19 @@ class _AuxValue(Flowable):
         self.max_width = aW
         self.max_height = aH
 
+        self.aux_value_color = self.current_range.color
+        aux_value_text = self.current_range.aux_value
+
+        if not self.score_data.is_score_valid:
+            aux_value_text = self.score_data.not_valid_data.aux_value
+            self.aux_value_color = self.score_data.not_valid_data.color
+
         aux_value_styles = {
             **self.styles.Subtitle_Center.__dict__,
-            "textColor": Colors.getTextColor(self.current_range.color).value,
+            "textColor": Colors.getTextColor(self.aux_value_color).value,
         }
         self.aux_value_para = Paragraph(
-            text=self.current_range.aux_value,
+            text=aux_value_text,
             style=ParagraphStyle(**aux_value_styles),
         )
 
@@ -127,7 +143,7 @@ class _AuxValue(Flowable):
 
         self.aux_value_para.debug = self.debug_flag
 
-        canvas.setFillColor(self.current_range.color.value)
+        canvas.setFillColor(self.aux_value_color.value)
         canvas.setStrokeAlpha(0)
 
         if self.debug_flag:
