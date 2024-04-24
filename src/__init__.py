@@ -193,12 +193,11 @@ def main():
     ]
 
     score_data = ScoreData(
-        score=490,
+        score=950,
         min_score=300,
         aux_title="Risco de Crédito",
         aux_template="""De acordo com o perfil do CNPJ consultado e seu principal sócio, o risco de 
         não pagamento dos compromissos financeiros da empresa é estatisticamente %s.""",
-        aux_color=Colors.Green,
         not_valid_data=ScoreNotValidData(
             color=Colors.Gray,
             aux_template="Este consumidor não possui informacões suficientes disponíveis para calcular o Score.",

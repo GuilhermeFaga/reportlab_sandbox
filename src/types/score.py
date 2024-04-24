@@ -24,7 +24,6 @@ class ScoreData:
         min_score: int,
         aux_title: str,
         aux_template: str,
-        aux_color: Colors,
         not_valid_data: ScoreNotValidData,
         ranges: list[ScoreRangeData],
     ):
@@ -32,7 +31,6 @@ class ScoreData:
         self.min_score = min_score
         self.aux_title = aux_title
         self.aux_template = aux_template
-        self.aux_color = aux_color
         self.not_valid_data = not_valid_data
         self.ranges = ranges
 
