@@ -72,6 +72,9 @@ class ScoreGroup(Flowable):
         self.max_width = aW
         self.max_height = aH
 
+        self.right_frame_width = 42 * mm
+        self.left_frame_width = self.max_width - self.right_frame_width - Spacing.Gap
+
         self.score_chart_primitive = ScoreChartPrimitive(
             score_data=self.score_data, debug_flag=self.debug_flag
         )
@@ -79,22 +82,22 @@ class ScoreGroup(Flowable):
             score_data=self.score_data, debug_flag=self.debug_flag
         )
 
-        self.score_chart_primitive.wrapOn(self.canv, self.max_width, 1)
-        self.score_text_primitive.wrapOn(self.canv, self.max_width, 1)
+        self.score_chart_primitive.wrapOn(self.canv, self.right_frame_width, 1)
+        self.score_text_primitive.wrapOn(self.canv, self.left_frame_width, 1)
 
-        self.height = self.score_chart_primitive.height
+        self.height = max(
+            self.score_chart_primitive.height, self.score_text_primitive.height
+        )
 
         return (self.max_width, self.height)
 
     def draw(self):
         canvas: Canvas = self.canv
 
-        right_frame_width = 42 * mm
-
         right_frame = Frame(
             x1=0,
             y1=0,
-            width=right_frame_width,
+            width=self.right_frame_width,
             height=self.height,
             topPadding=0,
             bottomPadding=0,
@@ -104,9 +107,9 @@ class ScoreGroup(Flowable):
         )
 
         left_frame = Frame(
-            x1=right_frame_width + Spacing.Gap,
+            x1=self.right_frame_width + Spacing.Gap,
             y1=0,
-            width=self.max_width - right_frame_width - Spacing.Gap,
+            width=self.left_frame_width,
             height=self.height,
             topPadding=0,
             bottomPadding=0,
