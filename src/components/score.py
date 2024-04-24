@@ -5,6 +5,7 @@ from reportlab.lib.units import mm
 
 from src.primitives.title import TitlePrimitive
 from src.primitives.score_chart import ScoreChartPrimitive, ScoreData, ScoreRangeData
+from src.primitives.score_text import ScoreTextPrimitive
 
 from src.enums import Spacing
 
@@ -74,8 +75,12 @@ class ScoreGroup(Flowable):
         self.score_chart_primitive = ScoreChartPrimitive(
             score_data=self.score_data, debug_flag=self.debug_flag
         )
+        self.score_text_primitive = ScoreTextPrimitive(
+            score_data=self.score_data, debug_flag=self.debug_flag
+        )
 
         self.score_chart_primitive.wrapOn(self.canv, self.max_width, 1)
+        self.score_text_primitive.wrapOn(self.canv, self.max_width, 1)
 
         self.height = self.score_chart_primitive.height
 
@@ -99,9 +104,9 @@ class ScoreGroup(Flowable):
         )
 
         left_frame = Frame(
-            x1=right_frame_width,
+            x1=right_frame_width + Spacing.Gap,
             y1=0,
-            width=self.max_width - right_frame_width,
+            width=self.max_width - right_frame_width - Spacing.Gap,
             height=self.height,
             topPadding=0,
             bottomPadding=0,
@@ -111,4 +116,4 @@ class ScoreGroup(Flowable):
         )
 
         right_frame.addFromList([self.score_chart_primitive], canvas)
-        left_frame.addFromList([], canvas)
+        left_frame.addFromList([self.score_text_primitive], canvas)

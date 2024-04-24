@@ -191,12 +191,55 @@ def main():
     ]
 
     score_data = ScoreData(
-        score=420,
+        score=550,
+        min_score=300,
+        aux_title="Risco de Crédito",
+        aux_template="""De acordo com o perfil do CNPJ consultado e seu principal sócio, o risco de 
+        não pagamento dos compromissos financeiros da empresa é estatisticamente %s.""",
+        aux_color=Colors.Green,
         ranges=[
-            ScoreRangeData(max_score=300, color=Colors.Red, description="Péssimo"),
-            ScoreRangeData(max_score=500, color=Colors.Orange, description="Ruim"),
-            ScoreRangeData(max_score=700, color=Colors.Green, description="Bom"),
-            ScoreRangeData(max_score=1000, color=Colors.Green, description="Ótimo"),
+            ScoreRangeData(
+                max_score=400,
+                color=Colors.Red,
+                description="Muito Ruim",
+                aux_value="Muito Alto",
+            ),
+            ScoreRangeData(
+                max_score=500,
+                color=Colors.Red,
+                description="Muito Ruim",
+                aux_value="Muito Alto",
+            ),
+            ScoreRangeData(
+                max_score=600,
+                color=Colors.Orange,
+                description="Ruim",
+                aux_value="Alto",
+            ),
+            ScoreRangeData(
+                max_score=700,
+                color=Colors.Orange,
+                description="Bom",
+                aux_value="Médio",
+            ),
+            ScoreRangeData(
+                max_score=800,
+                color=Colors.Orange,
+                description="Bom",
+                aux_value="Médio",
+            ),
+            ScoreRangeData(
+                max_score=900,
+                color=Colors.Green,
+                description="Ótimo",
+                aux_value="Baixo",
+            ),
+            ScoreRangeData(
+                max_score=1000,
+                color=Colors.Green,
+                description="Ótimo",
+                aux_value="Baixo",
+            ),
         ],
     )
 

@@ -1,7 +1,7 @@
 from reportlab.platypus import Flowable, Paragraph, Frame
 from reportlab.pdfgen.canvas import Canvas
-from reportlab.lib.styles import ParagraphStyle
 
+from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
 
 from src.primitives.icon import Icon

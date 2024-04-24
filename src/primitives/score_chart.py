@@ -1,24 +1,13 @@
 from reportlab.platypus import Flowable, Frame, Spacer, Paragraph
-from reportlab.graphics.shapes import Shape, Drawing, Polygon
+from reportlab.graphics.shapes import Drawing, Polygon
 from reportlab.pdfgen.canvas import Canvas
 
+from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
 
-from src.styles.stylesheet import CustomStyleSheet
 from src.enums import Colors, Spacing
-
-
-class ScoreRangeData:
-    def __init__(self, max_score: int, color: Colors, description: str):
-        self.max_score = max_score
-        self.color = color
-        self.description = description
-
-
-class ScoreData:
-    def __init__(self, score: int, ranges: list[ScoreRangeData]):
-        self.score = score
-        self.ranges = ranges
+from src.styles.stylesheet import CustomStyleSheet
+from src.types import ScoreData, ScoreRangeData
 
 
 class ScoreChartPrimitive(Flowable):
@@ -35,17 +24,16 @@ class ScoreChartPrimitive(Flowable):
 
         self.score_number = _ScoreNumber(
             score=self.score_data.score,
-            color=self.current_range.color,
+            color=self.score_data.current_range.color,
             debug_flag=self.debug_flag,
         )
         self.score_ranges = _ScoreRanges(
-            current_range=self.current_range,
-            ranges=self.score_data.ranges,
+            score_data=self.score_data,
             debug_flag=self.debug_flag,
         )
         self.score_description = _ScoreDescription(
-            description=self.current_range.description,
-            min=self.score_data.ranges[0].max_score,
+            description=self.score_data.current_range.description,
+            min=self.score_data.min_score,
             max=self.score_data.ranges[-1].max_score,
             debug_flag=self.debug_flag,
         )
@@ -92,14 +80,6 @@ class ScoreChartPrimitive(Flowable):
     def enforceRangeSort(self):
         self.score_data.ranges.sort(key=lambda x: x.max_score)
 
-    @property
-    def current_range(self) -> ScoreRangeData:
-        score = self.score_data.score
-        for range in self.score_data.ranges:
-            if score <= range.max_score:
-                return range
-        return self.score_data.ranges[0]
-
 
 container_height = 20 * mm
 
@@ -125,9 +105,13 @@ class _ScoreNumber(Flowable):
     def draw(self):
         canvas: Canvas = self.canv
 
+        score_styles = {
+            **self.styles.Score_Center.__dict__,
+            "textColor": Colors.getTextColor(self.color).value,
+        }
         score_para = Paragraph(
             str(self.score),
-            style=self.styles.Score_Center,
+            style=ParagraphStyle(**score_styles),
         )
         score_para.debug = self.debug_flag
         score_para.wrapOn(canvas, self.max_width, 1)
@@ -175,12 +159,10 @@ class _ScoreRanges(Flowable):
 
     def __init__(
         self,
-        current_range: ScoreRangeData,
-        ranges: list[ScoreRangeData],
+        score_data: ScoreData,
         debug_flag: int = 0,
     ):
-        self.current_range = current_range
-        self.ranges = ranges
+        self.score_data = score_data
         self.debug_flag = debug_flag
 
     def wrap(self, aW, aH):
@@ -201,18 +183,20 @@ class _ScoreRanges(Flowable):
     def draw(self):
         canvas: Canvas = self.canv
 
-        range_width = (self.max_width - Spacing.Padding * (len(self.ranges) - 1)) / len(
-            self.ranges
-        )
+        range_width = (
+            self.max_width - Spacing.Padding * (len(self.score_data.ranges) - 1)
+        ) / len(self.score_data.ranges)
 
-        for i, range in enumerate(self.ranges):
+        for i, range in enumerate(self.score_data.ranges):
             range_x = i * (range_width + Spacing.Padding)
             range_y = (
-                0 if range == self.current_range else self.current_range_height / 4
+                0
+                if range == self.score_data.current_range
+                else self.current_range_height / 4
             )
             r_height = (
                 self.current_range_height
-                if range == self.current_range
+                if range == self.score_data.current_range
                 else self.range_height
             )
 
@@ -241,7 +225,9 @@ class _ScoreRanges(Flowable):
                 height=self.height,
             )
 
-        current_range_index = self.ranges.index(self.current_range)
+        current_range_index = self.score_data.ranges.index(
+            self.score_data.current_range
+        )
         needle_x = (
             range_width / 2
             + range_width * current_range_index
