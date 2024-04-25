@@ -7,7 +7,7 @@ from reportlab.lib.units import mm
 
 from src.enums import Colors, Spacing
 from src.styles.stylesheet import CustomStyleSheet
-from src.types import ScoreData, ScoreRangeData, ScoreNotValidData
+from src.types.components import ScoreData, ScoreRangeData, ScoreNotValidData
 
 
 class ScoreChartPrimitive(Flowable):

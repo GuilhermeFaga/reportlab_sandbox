@@ -5,7 +5,7 @@ from reportlab.lib.styles import ParagraphStyle
 
 from src.enums import Colors, Spacing
 from src.styles.stylesheet import CustomStyleSheet
-from src.types import ScoreData
+from src.types.components import ScoreData
 
 
 class ScoreTextPrimitive(Flowable):

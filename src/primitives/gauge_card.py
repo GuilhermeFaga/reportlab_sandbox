@@ -8,7 +8,7 @@ from src.primitives.icon import Icon
 
 from src.enums import Colors, Spacing, SvgPath
 from src.styles.stylesheet import CustomStyleSheet
-from src.types import GaugeCardData
+from src.types.components import GaugeCardData
 
 from typing import Final
 

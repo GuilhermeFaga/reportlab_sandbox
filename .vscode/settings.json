@@ -1,4 +1,9 @@
 {
   "python.analysis.typeCheckingMode": "basic",
-  "python.analysis.autoImportCompletions": false
+  "python.analysis.autoImportCompletions": false,
+  "workbench.editor.showIcons": true,
+  "workbench.editor.highlightModifiedTabs": false,
+  "workbench.editor.labelFormat": "default",
+  "editor.tabSize": 4,
+  "workbench.editor.limit.perEditorGroup": true
 }

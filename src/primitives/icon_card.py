@@ -8,7 +8,7 @@ from src.primitives.icon import Icon
 
 from src.enums import Colors, Spacing
 from src.styles.stylesheet import CustomStyleSheet
-from src.types import IconCardData
+from src.types.components import IconCardData
 
 from typing import Final
 

@@ -4,7 +4,7 @@ from src.primitives.gauge_card_group import GaugeCardGroupPrimitive
 
 from src.enums import Spacing
 from src.styles.stylesheet import CustomStyleSheet
-from src.types import GaugeCardListData
+from src.types.components import GaugeCardListData
 
 
 class GaugeCardListPrimitive(Flowable):

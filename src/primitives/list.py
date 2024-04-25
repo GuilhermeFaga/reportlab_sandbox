@@ -3,7 +3,7 @@ from reportlab.pdfgen.canvas import Canvas
 
 from src.enums import Spacing
 from src.styles.stylesheet import CustomStyleSheet
-from src.types import ListData
+from src.types.components import ListData
 
 from math import ceil
 from typing import Final

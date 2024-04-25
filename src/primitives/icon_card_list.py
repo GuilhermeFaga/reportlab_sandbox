@@ -4,7 +4,7 @@ from reportlab.pdfgen.canvas import Canvas
 from src.primitives.icon_card import IconCardPrimitive, IconCardData
 
 from src.enums import Spacing
-from src.types import IconCardData
+from src.types.components import IconCardData
 
 
 class IconCardListPrimitive(Flowable):
