@@ -1,4 +1,4 @@
-from reportlab.platypus import Flowable, Paragraph, Frame
+from reportlab.platypus import Flowable, Paragraph, Frame, Spacer
 from reportlab.pdfgen.canvas import Canvas
 
 from src.primitives.gauge_card import GaugeCardPrimitive
@@ -47,10 +47,18 @@ class GaugeCardGroupPrimitive(Flowable):
                 gauge_card.wrapOn(self.canv, self.max_width / 2, 1)
                 self.left_story.append(gauge_card)
                 self.left_height += gauge_card.height
+
+                if not i >= len(self.group_data.cards) - 2:
+                    self.left_story.append(Spacer(1, Spacing.Padding * 2))
+                    self.left_height += Spacing.Padding * 2
             else:
                 gauge_card.wrapOn(self.canv, self.max_width / 2, 1)
                 self.right_story.append(gauge_card)
                 self.right_height += gauge_card.height
+
+                if not i == len(self.group_data.cards) - 1:
+                    self.right_story.append(Spacer(1, Spacing.Padding * 2))
+                    self.right_height += Spacing.Padding * 2
 
         self.height = (
             self.group_title.height
@@ -70,7 +78,7 @@ class GaugeCardGroupPrimitive(Flowable):
             height=self.height - self.group_title.height - Spacing.Gap,
             topPadding=0,
             bottomPadding=0,
-            rightPadding=0,
+            rightPadding=Spacing.Padding,
             leftPadding=0,
             showBoundary=self.debug_flag,
         )
@@ -83,7 +91,7 @@ class GaugeCardGroupPrimitive(Flowable):
             topPadding=0,
             bottomPadding=0,
             rightPadding=0,
-            leftPadding=0,
+            leftPadding=Spacing.Padding,
             showBoundary=self.debug_flag,
         )
 

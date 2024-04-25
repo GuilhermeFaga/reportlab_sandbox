@@ -284,6 +284,13 @@ def main():
                         level_text="Alto",
                         color=Colors.Red,
                     ),
+                    GaugeCardData(
+                        title="Card 1",
+                        description="Descrição do Card 1",
+                        level=1,
+                        level_text="Baixo",
+                        color=Colors.Green,
+                    ),
                 ],
             ),
             GaugeCardGroupData(
