@@ -34,7 +34,7 @@ import io
 
 PAGE_WIDTH, PAGE_HEIGHT = A4
 
-reportlab_debug = 1
+reportlab_debug = 0
 
 
 """
@@ -261,61 +261,66 @@ def main():
     gauge_card_list = GaugeCardListData(
         groups=[
             GaugeCardGroupData(
-                title="Grupo 1",
+                title="Pontualidade de pagamento",
                 cards=[
                     GaugeCardData(
-                        title="Card 1",
-                        description="Descrição do Card 1",
+                        title="Pontualidade de pagamento",
+                        description="Compromissos financeiros pagos em dia",
                         level=1,
-                        level_text="Baixo",
+                        level_text="Risco baixo",
                         color=Colors.Green,
                     ),
                     GaugeCardData(
-                        title="Card 2",
-                        description="Descrição do Card 2",
-                        level=2,
-                        level_text="Médio",
-                        color=Colors.Orange,
-                    ),
-                    GaugeCardData(
-                        title="Card 3",
-                        description="Descrição do Card 3",
+                        title="Tempo de atraso",
+                        description="Dívidas vencidas ou não pagas com atraso",
                         level=3,
-                        level_text="Alto",
+                        level_text="Risco alto",
+                        color=Colors.Red,
+                    ),
+                ],
+            ),
+            GaugeCardGroupData(
+                title="Endividamento",
+                cards=[
+                    GaugeCardData(
+                        title="Quantidade de contratos em aberto",
+                        description="Volume de contratos em aberto",
+                        level=3,
+                        level_text="Risco alto",
                         color=Colors.Red,
                     ),
                     GaugeCardData(
-                        title="Card 1",
-                        description="Descrição do Card 1",
+                        title="Uso de crédito emergencial",
+                        description="Volumo de uso de crédito emergencial",
                         level=1,
-                        level_text="Baixo",
+                        level_text="Risco baixo",
                         color=Colors.Green,
                     ),
                 ],
             ),
             GaugeCardGroupData(
-                title="Grupo 2",
+                title="Relacionamento com o mercado",
                 cards=[
                     GaugeCardData(
-                        title="Card 1",
-                        description="Descrição do Card 1",
+                        title="Risco do perfil de contratação",
+                        description="Uso de produtos de crédito de risco",
+                        level=3,
+                        level_text="Risco alto",
+                        color=Colors.Red,
+                    ),
+                    GaugeCardData(
+                        title="Quantidade de novas contratações",
+                        description="Contratos de crédito nos últimos 12 meses",
                         level=1,
-                        level_text="Baixo",
+                        level_text="Risco baixo",
                         color=Colors.Green,
                     ),
                     GaugeCardData(
-                        title="Card 2",
-                        description="Descrição do Card 2",
+                        title="Perfil de relacionamento",
+                        description="Relacionamentos com credores",
                         level=2,
-                        level_text="Médio",
+                        level_text="Risco médio",
                         color=Colors.Orange,
-                    ),
-                    GaugeCardData(
-                        title="Card 3",
-                        description="Descrição do Card 3",
-                        level=3,
-                        level_text="Alto",
-                        color=Colors.Red,
                     ),
                 ],
             ),

@@ -6,7 +6,7 @@ from reportlab.lib.units import mm
 
 from src.primitives.icon import Icon
 
-from src.enums import Colors, Spacing
+from src.enums import Colors, Spacing, SvgPath
 from src.styles.stylesheet import CustomStyleSheet
 from src.types import GaugeCardData
 
@@ -33,7 +33,7 @@ class GaugeCardPrimitive(Flowable):
         self.right_story: list[Flowable] = []
 
         title_styles = {
-            **self.styles.Subtitle.__dict__,
+            **self.styles.Body.__dict__,
             "spaceAfter": 2,
         }
         self.title_para = Paragraph(
@@ -50,19 +50,26 @@ class GaugeCardPrimitive(Flowable):
         )
         self.value_para = Paragraph(
             text=self.card_data.level_text,
-            style=self.styles.Caption_Right,
+            style=self.styles.Body_Right,
         )
+        self.gauge = _Gauge(level=self.card_data.level, debug_flag=self.debug_flag)
 
         self.title_para.wrapOn(self.canv, self.max_width, 1)
         self.description_para.wrapOn(self.canv, self.max_width, 1)
-        self.value_para.wrapOn(self.canv, self.max_width, 1)
+        self.value_para.wrapOn(self.canv, self.max_width - Spacing.Gap / 2, 1)
+        self.gauge.wrapOn(self.canv, self.max_width - Spacing.Gap / 2, 1)
 
         self.left_story.append(self.title_para)
         self.left_story.append(self.description_para)
 
+        self.right_story.append(self.gauge)
         self.right_story.append(self.value_para)
 
-        self.right_width = self.value_para._width_max + Spacing.Padding + Spacing.Gap
+        self.right_width = (
+            max(self.gauge.width, self.value_para._width_max)
+            + Spacing.Padding
+            + Spacing.Gap
+        )
         self.left_width = self.max_width - self.right_width
 
         self.left_height += (
@@ -73,8 +80,9 @@ class GaugeCardPrimitive(Flowable):
         )
 
         self.right_height += (
-            self.value_para.height
-            + self.value_para.getSpaceAfter()
+            self.gauge.height
+            + self.value_para.getSpaceBefore()
+            + self.value_para.height
             + Spacing.Padding * 2
         )
 
@@ -132,7 +140,8 @@ class GaugeCardPrimitive(Flowable):
         right_frame.addFromList(self.right_story, canvas)
 
 
-icon_size: Final[int] = int(3.7 * mm)
+icon_size: Final[int] = int(3.8 * mm)
+gauges_count: Final[int] = 3
 
 
 class _Gauge(Flowable):
@@ -140,13 +149,46 @@ class _Gauge(Flowable):
         self.level = level
         self.debug_flag = debug_flag
 
+        if level < 0:
+            self.level = 0
+        if level > gauges_count:
+            self.level = gauges_count
+
     def wrap(self, aW, aH):
         self.max_width = aW
         self.max_height = aH
 
-        self.height = icon_size
+        self.icon = Icon(
+            SvgPath.Warning,
+            height=icon_size,
+            color=Colors.DarkGray,
+            debug_flag=self.debug_flag,
+        )
+        self.active_icon = Icon(
+            SvgPath.Warning,
+            height=icon_size,
+            color=Colors.Black_70,
+            debug_flag=self.debug_flag,
+        )
+
+        self.icon.wrapOn(self.canv, self.max_width, 1)
+        self.active_icon.wrapOn(self.canv, self.max_width, 1)
+
+        self.width = self.icon.width * gauges_count + Spacing.Padding * (
+            gauges_count - 1
+        )
+        self.height = self.icon.height
 
         return (self.max_width, self.height)
 
     def draw(self):
-        pass
+        canvas: Canvas = self.canv
+
+        for i in range(gauges_count):
+            icon_x = (
+                self.max_width - i * self.icon.width - Spacing.Gap - Spacing.Padding * i
+            )
+            if i < abs(self.level - gauges_count):
+                self.icon.drawOn(canvas, icon_x, 0)
+            else:
+                self.active_icon.drawOn(canvas, icon_x, 0)
