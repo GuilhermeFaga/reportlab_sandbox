@@ -100,14 +100,7 @@ class PDFBuilder:
 
     def add_flowable(self, flowable: Flowable):
         self.story.append(flowable)
-
-    def generate_test_data(self, limit: int = 15):
-        for i in range(limit):
-            bogustext = ("This is Paragraph number %s. " % i) * 20
-            p = Paragraph(bogustext, styles.Body)
-            self.story.append(KeepTogether([p]))
-
-        self.story.append(Spacer(1, Spacing.Gap))
+        self.story.append(Spacer(1, Spacing.Gap * 2))
 
     def build(self):
         with io.BytesIO() as out:

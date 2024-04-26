@@ -230,5 +230,4 @@ class RelatorioPositivo:
             )
         )
 
-        pdf.generate_test_data()
         pdf.build()
