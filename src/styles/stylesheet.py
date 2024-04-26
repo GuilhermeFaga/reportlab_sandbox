@@ -115,6 +115,15 @@ class CustomStyleSheet(StyleSheet1):
                 )
             )
 
+    @staticmethod
+    def customStyle(style: ParagraphStyle, **kwargs) -> ParagraphStyle:
+        return ParagraphStyle(
+            **{
+                **style.__dict__,
+                **kwargs,
+            }
+        )
+
     @property
     def Title(self) -> ParagraphStyle:
         return self["Title"]

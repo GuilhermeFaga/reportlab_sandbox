@@ -110,13 +110,13 @@ class _AuxValue(Flowable):
             aux_value_text = self.score_data.not_valid_data.aux_value
             self.aux_value_color = self.score_data.not_valid_data.color
 
-        aux_value_styles = {
-            **self.styles.Subtitle_Center.__dict__,
-            "textColor": Colors.getTextColor(self.aux_value_color).value,
-        }
+        aux_value_styles = self.styles.customStyle(
+            style=self.styles.Subtitle_Center,
+            textColor=Colors.getTextColor(self.aux_value_color).value,
+        )
         self.aux_value_para = Paragraph(
             text=aux_value_text,
-            style=ParagraphStyle(**aux_value_styles),
+            style=aux_value_styles,
         )
 
         self.aux_value_para.wrapOn(self.canv, self.max_width, 1)

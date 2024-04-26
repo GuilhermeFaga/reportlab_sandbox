@@ -32,21 +32,21 @@ class GaugeCardPrimitive(Flowable):
         self.left_story: list[Flowable] = []
         self.right_story: list[Flowable] = []
 
-        title_styles = {
-            **self.styles.Body.__dict__,
-            "spaceAfter": 2,
-        }
+        title_styles = self.styles.customStyle(
+            style=self.styles.Body,
+            spaceAfter=2,
+        )
         self.title_para = Paragraph(
             text=self.card_data.title,
-            style=ParagraphStyle(**title_styles),
+            style=title_styles,
         )
-        description_styles = {
-            **self.styles.Caption_70.__dict__,
-            "spaceBefore": 0,
-        }
+        description_styles = self.styles.customStyle(
+            style=self.styles.Caption_70,
+            spaceBefore=0,
+        )
         self.description_para = Paragraph(
             text=self.card_data.description,
-            style=ParagraphStyle(**description_styles),
+            style=description_styles,
         )
         self.value_para = Paragraph(
             text=self.card_data.level_text,

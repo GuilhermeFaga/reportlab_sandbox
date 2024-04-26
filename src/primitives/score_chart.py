@@ -102,23 +102,23 @@ class _ScoreNumber(Flowable):
         canvas: Canvas = self.canv
 
         score_color = self.score_data.current_range.color
-        score_styles = {
-            **self.styles.Score_Center.__dict__,
-            "textColor": Colors.getTextColor(score_color).value,
-        }
+        score_styles = self.styles.customStyle(
+            style=self.styles.Score_Center,
+            textColor=Colors.getTextColor(score_color).value,
+        )
         score_text = str(self.score_data.score)
 
         if not self.score_data.is_score_valid:
             score_color = self.score_data.not_valid_data.color
-            score_styles = {
-                **self.styles.Title_Center.__dict__,
-                "textColor": Colors.getTextColor(score_color).value,
-            }
+            score_styles = self.styles.customStyle(
+                style=self.styles.Title_Center,
+                textColor=Colors.getTextColor(score_color).value,
+            )
             score_text = self.score_data.not_valid_data.aux_value
 
         score_para = Paragraph(
             score_text,
-            style=ParagraphStyle(**score_styles),
+            style=score_styles,
         )
         score_para.debug = self.debug_flag
         score_para.wrapOn(canvas, self.max_width, 1)

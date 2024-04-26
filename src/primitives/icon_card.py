@@ -30,21 +30,19 @@ class IconCardPrimitive(Flowable):
         self.max_width = aW
         self.max_height = aH
 
-        title_styles = {
-            **self.styles.Subtitle.__dict__,
-            "textColor": Colors.getTextColor(self.icon_card_data.color).value,
-            "spaceAfter": 2,
-        }
-        self.title_para = Paragraph(
-            self.icon_card_data.title, ParagraphStyle(**title_styles)
+        title_styles = self.styles.customStyle(
+            style=self.styles.Subtitle,
+            textColor=Colors.getTextColor(self.icon_card_data.color).value,
+            spaceAfter=2,
         )
-        description_styles = {
-            **self.styles.Body.__dict__,
-            "textColor": Colors.getTextColor(self.icon_card_data.color).value,
-            "spaceBefore": 0,
-        }
+        self.title_para = Paragraph(self.icon_card_data.title, title_styles)
+        description_styles = self.styles.customStyle(
+            style=self.styles.Body,
+            textColor=Colors.getTextColor(self.icon_card_data.color).value,
+            spaceBefore=0,
+        )
         self.description_para = Paragraph(
-            self.icon_card_data.description, ParagraphStyle(**description_styles)
+            self.icon_card_data.description, description_styles
         )
 
         self.title_para.debug = self.debug_flag
