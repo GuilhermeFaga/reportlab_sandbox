@@ -1,21 +1,26 @@
 from src.pdf_builder import PDFBuilder
 
 from src.components.header import HeaderData
-from src.components.list import List, ListData
-from src.components.icon_card_list import IconCardList, IconCardData
+from src.components.list import List
+from src.components.icon_card_list import IconCardList
 from src.components.score import Score
 from src.components.gauge_card_list import GaugeCardList
+from src.components.table import Table
 
 from src.enums import Colors, SvgPath
 
 from src.types.components import (
+    ListData,
+    IconCardData,
     ScoreData,
     ScoreRangeData,
     ScoreNotValidData,
     GaugeCardListData,
     GaugeCardGroupData,
     GaugeCardData,
+    TableData,
 )
+from src.types.misc import DictKey
 
 
 class RelatorioPositivo:
@@ -34,14 +39,14 @@ class RelatorioPositivo:
 
         list_data = ListData(
             fields={
-                "cnpj": "CNPJ",
-                "situacao": "Situação",
-                "razao_social": "Razão Social",
-                "atividade_principal": "Atividade Principal",
-                "endereco": "Endereço",
-                "bairro": "Bairro",
-                "cidade": "Cidade",
-                "cep": "CEP",
+                DictKey("cnpj"): "CNPJ",
+                DictKey("situacao"): "Situação",
+                DictKey("razao_social"): "Razão Social",
+                DictKey("atividade_principal"): "Atividade Principal",
+                DictKey("endereco"): "Endereço",
+                DictKey("bairro"): "Bairro",
+                DictKey("cidade"): "Cidade",
+                DictKey("cep"): "CEP",
             },
             items={
                 "cnpj": "00.000.000/0001-00",
@@ -215,6 +220,36 @@ class RelatorioPositivo:
             ]
         )
 
+        table_data = TableData(
+            columns={
+                DictKey("data"): "Data",
+                DictKey("descricao"): "Descrição",
+                DictKey("usuario"): "Usuário",
+                DictKey("protocolo"): "Protocolo",
+            },
+            nested_fields={},
+            data=[
+                {
+                    "data": "12/04/2024",
+                    "descricao": "Consulta realizada",
+                    "usuario": "Usuário",
+                    "protocolo": "52023152-59018723807912038",
+                },
+                {
+                    "data": "12/04/2024",
+                    "descricao": "Consulta realizada",
+                    "usuario": "Usuário",
+                    "protocolo": "52023152-59018723807912038",
+                },
+                {
+                    "data": "12/04/2024",
+                    "descricao": "Consulta realizada",
+                    "usuario": "Usuário",
+                    "protocolo": "52023152-59018723807912038",
+                },
+            ],
+        )
+
         pdf = PDFBuilder("phello.pdf", header_data)
 
         pdf.add_flowable(
@@ -228,6 +263,9 @@ class RelatorioPositivo:
             GaugeCardList(
                 "Indicadores de Negócio", gauge_card_list, debug_flag=reportlab_debug
             )
+        )
+        pdf.add_flowable(
+            Table("Histórico de Consultas", table_data, debug_flag=reportlab_debug)
         )
 
         pdf.build()
