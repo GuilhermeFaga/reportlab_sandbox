@@ -1,8 +1,6 @@
 from reportlab.platypus import Flowable, Frame, Paragraph
 from reportlab.pdfgen.canvas import Canvas
 
-from reportlab.lib.styles import ParagraphStyle
-
 from src.enums import Colors, Spacing
 from src.styles.stylesheet import CustomStyleSheet
 from src.types.components import ScoreData

@@ -2,12 +2,11 @@ from reportlab.platypus import Flowable, Frame, Spacer, Paragraph
 from reportlab.graphics.shapes import Drawing, Polygon
 from reportlab.pdfgen.canvas import Canvas
 
-from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.units import mm
 
 from src.enums import Colors, Spacing
 from src.styles.stylesheet import CustomStyleSheet
-from src.types.components import ScoreData, ScoreRangeData, ScoreNotValidData
+from src.types.components import ScoreData
 
 
 class ScoreChartPrimitive(Flowable):
