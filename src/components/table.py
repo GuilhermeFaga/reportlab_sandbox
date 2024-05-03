@@ -31,6 +31,24 @@ class Table(Flowable):
 
         return (self.max_width, self.height)
 
+    def split(self, aW, aH):
+        header_height, first_row_height, *_ = self.table_primitive.table._rowHeights
+        min_height = (
+            self.title_primitive.height
+            + Spacing.Gap
+            + int(header_height or 0)
+            + int(first_row_height or 0)
+        )
+
+        if aH < min_height:
+            return []
+
+        return [
+            self.title_primitive,
+            Spacer(1, Spacing.Gap),
+            *self.table_primitive.split(aW, aH),
+        ]
+
     def draw(self):
 
         frame = Frame(

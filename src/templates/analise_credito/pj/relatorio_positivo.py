@@ -227,26 +227,24 @@ class RelatorioPositivo:
                 DictKey("usuario"): "Usuário",
                 DictKey("protocolo"): "Protocolo",
             },
-            nested_fields={},
+            nested_fields={
+                DictKey("nested"): "Nested Field 1",
+                DictKey("nested2"): "Nested Field 2",
+                DictKey("nested3"): "Nested Field 3",
+                DictKey("nested4"): "Nested Field 4",
+            },
             data=[
                 {
                     "data": "12/04/2024",
                     "descricao": "Consulta realizada",
                     "usuario": "Usuário",
                     "protocolo": "52023152-59018723807912038",
-                },
-                {
-                    "data": "12/04/2024",
-                    "descricao": "Consulta realizada",
-                    "usuario": "Usuário",
-                    "protocolo": "52023152-59018723807912038",
-                },
-                {
-                    "data": "12/04/2024",
-                    "descricao": "Consulta realizada",
-                    "usuario": "Usuário",
-                    "protocolo": "52023152-59018723807912038",
-                },
+                    "nested": "Nested Field 1",
+                    "nested2": "Nested Field 2",
+                    "nested3": "Nested Field 3",
+                    "nested4": "Nested Field 4",
+                }
+                for _ in range(20)
             ],
         )
 

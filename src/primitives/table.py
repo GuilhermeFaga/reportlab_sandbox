@@ -1,11 +1,12 @@
-from reportlab.platypus import Flowable, Paragraph, Frame, Spacer, Table
+from reportlab.platypus import Flowable, Paragraph, Frame, Table
+from reportlab.pdfgen.canvas import Canvas
 
 from src.primitives.list import ListPrimitive, ListData
 
 from src.types.components import TableData
 from src.styles.stylesheet import CustomStyleSheet
 
-from src.enums import Spacing
+from src.enums import Spacing, Colors
 
 
 class TablePrimitive(Flowable):
@@ -26,40 +27,31 @@ class TablePrimitive(Flowable):
 
         temp_table.wrapOn(self.canv, self.max_width, self.max_height)
 
-        # Get columns width from the table
         self.col_widths = temp_table._colWidths
 
-        # Free table from memory
         del temp_table
 
-        # Create a more complex table
-        # Each row except the Header is a Flowable
-        # These Flowables have a one row Table with data from table_data.columns
-        # and if table_data.nested_fields is not empty,
-        # a nested ListPrimitive with data from table_data.nested_fields
-
-        # Pass the column width for all tables within the complex table
-        # Wrap the complex table to get the height
-
-        complex_data = [
-            header,
-            *[
-                (
-                    [
-                        _ComplexRow(
-                            row,
-                            table_data=self.table_data,
-                            col_widths=self.col_widths,
-                            row_index=i,
-                            styles=self.styles,
-                        )
-                    ]
+        complex_rows = (
+            [
+                _ComplexRow(
+                    row,
+                    table_data=self.table_data,
+                    col_widths=self.col_widths,
+                    row_index=i,
+                    styles=self.styles,
+                    debug_flag=self.debug_flag,
                 )
-                for i, row in enumerate(rows)
-            ],
-        ]
+            ]
+            for i, row in enumerate(rows)
+        )
 
-        self.table = Table(complex_data, colWidths=self.col_widths)
+        complex_data = [header, *complex_rows]
+
+        self.table = Table(
+            complex_data,
+            colWidths=self.col_widths,
+            repeatRows=1,
+        )
 
         self.table.wrapOn(self.canv, self.max_width, self.max_height)
 
@@ -67,8 +59,10 @@ class TablePrimitive(Flowable):
 
         return (self.max_width, self.height)
 
-    def draw(self):
+    def split(self, aW, aH):
+        return self.table.split(aW, aH)
 
+    def draw(self):
         self.table.drawOn(self.canv, 0, 0)
 
 
@@ -89,12 +83,14 @@ class _ComplexRow(Flowable):
         col_widths,
         row_index,
         styles=CustomStyleSheet(),
+        debug_flag=0,
     ):
         self.row = row
         self.table_data = table_data
         self.col_widths = col_widths
         self.row_index = row_index
         self.styles = styles
+        self.debug_flag = debug_flag
 
     def wrap(self, aW, aH):
         self.max_width = sum(self.col_widths)
@@ -106,7 +102,7 @@ class _ComplexRow(Flowable):
             data=[self.row],
             colWidths=self.col_widths,
         )
-        self.table.wrapOn(self.canv, self.max_width, self.max_height)
+        self.table.wrapOn(self.canv, self.max_width - Spacing.Gap, self.max_height)
 
         self.height = self.table._height
 
@@ -119,16 +115,20 @@ class _ComplexRow(Flowable):
                     fields=self.table_data.nested_fields,
                 ),
                 styles=self.styles,
+                debug_flag=self.debug_flag,
             )
-            self.list_primitive.wrapOn(self.canv, self.max_width, self.max_height)
+            self.list_primitive.wrapOn(
+                self.canv, self.max_width - Spacing.Gap, self.max_height
+            )
 
             self.height += self.list_primitive.height
 
-            self.story.append(self.table)
+            self.story.append(self.list_primitive)
 
         return (self.max_width, self.height)
 
     def draw(self):
+        canvas: Canvas = self.canv
 
         frame = Frame(
             x1=0,
@@ -137,9 +137,20 @@ class _ComplexRow(Flowable):
             height=self.height,
             topPadding=0,
             bottomPadding=0,
-            rightPadding=-Spacing.Gap,
-            leftPadding=-Spacing.Gap,
-            showBoundary=0,
+            rightPadding=Spacing.Gap,
+            leftPadding=Spacing.Gap,
+            showBoundary=self.debug_flag,
         )
 
-        frame.addFromList(self.story, self.canv)
+        if self.row_index % 2 == 0:
+            canvas.setFillColor(Colors.Gray.value)
+            canvas.setStrokeAlpha(0)
+            canvas.rect(
+                x=-Spacing.Padding / 2,
+                y=-Spacing.Padding / 2,
+                width=self.max_width - Spacing.Padding,
+                height=self.height + Spacing.Padding,
+                fill=1,
+            )
+
+        frame.addFromList(self.story, canvas)
