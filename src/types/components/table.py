@@ -5,12 +5,14 @@ class TableData:
     def __init__(
         self,
         columns: dict[DictKey, str],
-        nested_fields: dict[DictKey, str],
         data: list[dict[str, str]],
+        nested_fields: dict[DictKey, str] = {},
+        overview: dict[str, str] = {},
     ):
         self.columns = columns
-        self.nested_fields = nested_fields
         self.data = data
+        self.nested_fields = nested_fields
+        self.overview = overview
 
     @property
     def matrix(self) -> list[list]:

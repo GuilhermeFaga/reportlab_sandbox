@@ -233,6 +233,10 @@ class RelatorioPositivo:
                 DictKey("nested3"): "Nested Field 3",
                 DictKey("nested4"): "Nested Field 4",
             },
+            overview={
+                "Total de consultas": "20",
+                "Consultas realizadas": "20",
+            },
             data=[
                 {
                     "data": "12/04/2024",
